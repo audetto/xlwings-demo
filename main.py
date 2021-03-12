@@ -15,7 +15,7 @@ class ObjectConverter(Converter):
     def write_value(value, options):
         unique = str(uuid.uuid4())
         ObjectConverter.cache[unique] = value
-        # TODO: object are never deleted
+        # TODO: objects are never deleted
         # it would be nice to have access to the caller
         return unique
 
