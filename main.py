@@ -15,6 +15,9 @@ class ObjectConverter(Converter):
     def write_value(value, options):
         unique = str(uuid.uuid4())
         ObjectConverter.cache[unique] = value
+        # TODO: object are never deleted
+        # it would be nice to have access to the caller
+        return unique
 
 
 class SomeObject:
@@ -27,15 +30,15 @@ class SomeObject:
 
 @xw.func
 @xw.ret(convert=ObjectConverter)
-def create(value: float) -> SomeObject:
-    return SomeObject(float)
+def create_f(value: float) -> SomeObject:
+    return SomeObject(value)
 
 
 @xw.func
 @xw.arg('some_object', convert=ObjectConverter)
-def get(some_object: SomeObject, exponent: float) -> float:
+def get_f(some_object: SomeObject, exponent: float) -> float:
     return some_object.get(exponent)
 
 
-some = create(10)
-print(get(some, 2))
+if __name__ == "__main__":
+    xw.serve()
